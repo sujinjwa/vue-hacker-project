@@ -1,0 +1,54 @@
+<template>
+    <div>
+        <ul class="list">
+            <li v-for="item in listData" :key="item.id">
+                <div>
+                    <b>{{ item.time_ago }}</b>
+                    <template v-if="$route.name === 'news'">
+                        <span>by <router-link :to="`/user/${item.user}`">{{ item.user }}</router-link></span><br/>
+                        <a :href="item.url">{{ item.title }}</a>
+                        <router-link :to="`item?id=${item.id}`"><i>({{ item.comments_count }})</i></router-link>
+                    </template>
+                    <template v-else-if="$route.name === 'ask'">
+                        <span>by <router-link :to="`/user/${item.user}`">{{ item.user }}</router-link></span><br/>
+                        <router-link :to="item.url">{{ item.title }}<i>({{ item.comments_count }})</i></router-link>
+                    </template>
+                    <template v-else>
+                        <span>{{ 'by' + item.user }}</span><br/>
+                        <a :href="item.url">{{ item.title }}</a>
+                    </template>
+                </div>
+            </li>
+        </ul>
+    </div>
+</template>
+
+<script>
+// import axios from 'axios';
+
+export default {
+    props: ['listData'],
+
+    // data() {
+    //     return {
+    //         list: []
+    //     }
+    // },
+
+    created() {
+        // axios.get('https://api.hnpwa.com/v0/news/1.json')
+        //     .then((response) => {
+        //         this.list = response.data;
+        //     })
+    }
+}
+</script>
+
+<style>
+.list li {padding-left:10px; list-style-type: none;}
+.list li + li {margin-top:20px}
+.list li > a {text-decoration: none; font-size:22px}
+.list li b {font-style: normal; font-size:12px; color:#999}
+.list li span {font-style: normal; font-weight:700; font-size:12px; color:#999;}
+.list li i {font-style: normal; font-size:12px; color:cornflowerblue}
+</style>
